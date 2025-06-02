@@ -7,7 +7,8 @@ obj/
 *.suo
 *.userosscache
 *.sln.docstates
-
+Auto/appsettings.Development.json
+Auto/appsettings.json
 # Visual Studio Cache
 .vs/
 
@@ -25,7 +26,7 @@ publish/
 *.log
 
 # ASP.NET Core spezifisch
-wwwroot/lib/
+wwwroot/
 
 # Umgebungsdateien
 .env
