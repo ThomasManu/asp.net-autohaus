@@ -1,0 +1,111 @@
+﻿@model List<Automobil>
+
+@{
+    ViewData["Title"] = "AutolisteAdmin";
+}
+
+<style>
+    .footer {
+    display: none;
+    }
+
+    .table-responsive {
+    max-height: 70vh;
+    overflow-y: auto;
+    }
+
+    #bild {
+    max-height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Fahrzeugverwaltung</h2>
+        <a asp-controller="Autobearbeitungs" asp-action="CreateEditAuto" class="btn btn-primary">+ Neues Auto</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table id="AdminAutoTable" class="table table-striped table-hover align-middle mb-0">
+                    <thead class="table-light text-nowrap text-center">
+                        <tr>
+                            <th>Id</th>
+                            <th>Hersteller</th>
+                            <th>Modell</th>
+                            <th>Farbe</th>
+                            <th>KM-Stand</th>
+                            <th>Baujahr</th>
+                            <th>Leistung</th>
+                            <th style="min-width: 120px;">Ausstattung</th>
+                            <th>Preis</th>
+                            <th>TÜV bis</th>
+                            <th>Bild</th>
+                            <th>Pfad</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-top">
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                var base64String = item.Autobild != null ? Convert.ToBase64String(item.Autobild) : null;
+                                var imageSrc = item.Bilderliste?.FirstOrDefault();
+
+                                <tr class="text-center">
+                                    <td>@item.Id</td>
+                                    <td>@item.Herstellername</td>
+                                    <td>@item.Modell</td>
+                                    <td>@item.Farbe</td>
+                                    <td>@item.Kilometerstand</td>
+                                    <td>@item.Baujahr</td>
+                                    <td>@item.Leistung kW</td>
+                                    <td class="text-start">@item.Extras</td>
+                                    <td>@item.Preis €</td>
+                                    <td>@item.TüvBis.ToString("MM/yyyy")</td>
+                                    <td>@if(item.Bilderliste?.Count>0)
+                                        {
+                                            <img id="bild" src="@item.Bilderliste[0] " alt="Autobild" />
+                                        }
+
+                                    </td>
+                                    <td>
+                                        @if (item.Bilderliste?.Count > 0)
+                                        {
+                                            foreach (var j in item.Bilderliste)
+                                            {
+                                                @j <br />;
+                                            }
+
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-column gap-1">
+                                            <a class="btn btn-sm btn-outline-primary" href="@Url.Action("CreateEditAuto", "Autobearbeitungs", new { id = item.Id })">Bearbeiten</a>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="return confirmDelete('@Url.Action("deleteAuto", "Autobearbeitungs", new { id = item.Id })');">Löschen</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete(url) {
+            if (confirm("Bist du sicher, dass du diesen Eintrag löschen möchtest?")) {
+                window.location.href = url;
+            }
+            return false;
+        }
+    </script>
+}

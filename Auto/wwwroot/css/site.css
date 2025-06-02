@@ -1,0 +1,313 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Sicherstellen, dass die Seite mindestens die Höhe des Viewports hat */
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+body {
+    background-image: url('/Images/neuerhinteergrund.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow-x: hidden;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+main {
+    flex: 1; /* Nimmt den verfügbaren Platz ein und lässt den Footer unten */
+}
+
+#BackgroundContainer {
+    margin: 0;
+    background-image: url('/Images/neuerhinteergrund.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+   /* min-height: 10vh;*/
+    max-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.bottom-center-text {
+    position: absolute;
+    bottom: 100px; /* Abstand vom unteren Rand */
+    /* left: 50%;*/ /* Horizontal zentrieren durch links 50% */
+    right: 20px;
+    /* transform: translateX(-50%);*/ /* Korrektur der horizontalen Zentrierung */
+    text-align: center;
+    color: white;
+}
+
+#unsereAngeboteLink {
+    font-size: 60px;
+    font-family: Arial;
+    font-weight: bold;
+    text-shadow: 5px 1px 0px #042351, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000;
+    color: gray;
+}
+    #unsereAngeboteLink:hover {
+        color: white;
+    }
+
+.imageAutoAngebotsliste {
+    height: 5vw;
+    width: auto;
+    margin: 1vw;
+}
+/* Standard-Layout für größere Bildschirme  Loginseite/registerseite*/
+#account, #registerForm {
+    width: 50%;
+    height: 50vh;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-body {
+    flex: 1;
+    overflow-y: auto;
+}
+.tabellealleUser {
+    font-size: 1em; /* Standard Schriftgröße für Zellen */
+    width: 100%;
+    border-collapse: collapse; /* Verhindert zusätzliche Ränder zwischen Zellen */
+}
+
+    .tabellealleUser th {
+        font-weight: bolder; /* Fett für Tabellenüberschriften */
+        background-color: lightgray; /* Hintergrundfarbe für Tabellenüberschriften */
+        padding: 10px; /* Padding für Überschriften */
+        text-align: left; /* Textausrichtung der Überschriften */
+    }
+.Werte{
+    font-weight:bolder
+}
+.Weteparas{
+
+}
+#carouselExample {
+    width: 30vw;
+}
+#KarussellConti {
+    width: 40%;
+    margin: auto;
+    overflow-y: auto;
+}
+#WerteConti {
+    width: 40%;
+    margin: auto;
+    overflow-y: auto;
+}
+#AutoCreateTable {
+    margin-top:5vh;
+    height: 80vh;
+    overflow-y: auto; /* Hinzugefügt, damit der Inhalt scrollbar ist */
+}
+
+/*Funktion zur Bilderentfernungsanzeige*/
+.image-link {
+    position: relative;
+    display: inline-block; /* Passt die Größe an das Bild an */
+    text-decoration: none; /* Entfernt die Standard-Unterstreichung von Links */
+}
+
+
+.imageAutoAngebotsliste {
+    height: 5vw;
+    width: auto;
+    margin: 1vw;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.7); /* Halbtransparenter Hintergrund */
+    color: black; /* Textfarbe */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px; /* Schriftgröße anpassen */
+    text-align: center;
+    opacity: 0; /* Unsichtbar standardmäßig */
+    transition: opacity 0.3s ease; /* Weicher Übergang */
+    pointer-events: none; /* Verhindert Interaktionen mit dem Text */
+}
+
+.image-link:hover .overlay-text {
+    opacity: 1; /* Sichtbar beim Hover */
+}
+#AdminAutoTable {
+    background-color:lightgray; 
+    font-size:1vw;
+    width: 95vw; /* Optional: Passt die Breite der Tabelle an den Inhalt an */
+    table-layout: auto; /* Automatische Spaltenbreite basierend auf dem Inhalt */
+    border-collapse: collapse; /* Verhindert zusätzliche Abstände zwischen Zellen */
+}
+
+    #AdminAutoTable th, #AdminAutoTable td {
+        padding: 0; /* Entfernt Innenabstände */
+        text-align: left; /* Optional: Richtet den Text links aus */
+    }
+#footer {
+   
+    font-size:1em;
+}
+.scroll-wrapper {
+   
+    overflow-y: auto; /* Ermöglicht das vertikale Scrollen */
+    margin-bottom: 5vh; /* Etwas Abstand zum Footer oder nächsten Abschnitt */
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    #account, #registerForm {
+        width: 90%; /* Breiter auf kleineren Geräten */
+        height: 80vh; /* Dynamisch anpassen */
+    }
+
+    .card {
+        margin: 0 10px;
+    }
+
+    .card-header h5 {
+        font-size: 1.5rem; /* Kleinere Schriftgröße für den Header */
+    }
+
+   
+        .Navlinks:hover {
+            background-color: lightgray;
+            color: black;
+        }
+}
+
+
+
+/* Anpassungen für Mobiltelefone */
+@media (max-width: 480px) {
+
+    /*#dragContainer {
+        height: 24vh;
+    }*/
+    #account, #registerForm {
+        margin-top: 1vh;
+        width: 95%; /* Fast die gesamte Breite des Bildschirms */
+        height: auto; /* Höhe wird durch Inhalt bestimmt */
+        padding: 10px;
+    }
+
+
+    .card-header h5 {
+        font-size: 1.5rem; /* Kleinere Schriftgröße für den Header */
+    }
+
+    .form-control {
+        font-size: 0.9rem; /* Kleinere Schriftgröße für Eingabefelder */
+    }
+
+    button {
+        font-size: 1rem; /* Anpassung der Schaltfläche */
+        padding: 10px;
+    }
+
+   
+
+    .Navlinks {
+        display: block;
+        background-color: darkgray;
+        color: white;
+        margin: 1vh;
+        border-radius: 0.5vw;
+        padding: 1vw
+    }
+
+        .Navlinks:hover {
+            background-color: lightgray;
+            color: black;
+        }
+    .imageAutoAngebotsliste {
+        height: 10vw;
+        width: auto;
+        margin: 1vw;
+    }
+    #carouselExample {
+        width: 90vw;
+    }
+
+    #KarussellConti {
+        width: 90%;
+        margin: auto;
+        overflow-y: auto;
+    }
+
+    #WerteConti {
+        width: 90%;
+        margin: auto;
+        overflow-y: auto;
+    }
+    #AdminAutoTable {
+        background-color: lightgray;
+        font-size: 2vw;
+        width:100%; /* Optional: Passt die Breite der Tabelle an den Inhalt an */
+        table-layout: auto; /* Automatische Spaltenbreite basierend auf dem Inhalt */
+        border-collapse: collapse; /* Verhindert zusätzliche Abstände zwischen Zellen */
+    }
+
+        #AdminAutoTable th, #AdminAutoTable td {
+            padding: 0; /* Entfernt Innenabstände */
+            text-align: left; /* Optional: Richtet den Text links aus */
+        }
+    .tabellealleUser {
+        font-size: 0.7em; /* Standard Schriftgröße für Zellen */
+        width: 100%;
+        border-collapse: collapse; /* Verhindert zusätzliche Ränder zwischen Zellen */
+    }
+
+    #footer {
+        font-size: 0.7em;
+    }
+}
+/*xiaomi readmi 12*/
+@media (device-width: 1080px) and (device-height: 2460px) and (-webkit-device-pixel-ratio: 2.75) and (orientation: portrait) {
+    /* Spezifische Regeln nur für das Xiaomi Redmi 12 */
+    #account,
+    #registerForm {
+        width: 65%;
+        height: auto;
+        padding: 10px;
+        font-size: 2rem;
+    }
+
+
+    .card-header h5 {
+        font-size: 2rem; /* Kleinere Schriftgröße für den Header */
+    }
+
+    .form-control {
+        font-size: 0.9rem; /* Kleinere Schriftgröße für Eingabefelder */
+    }
+
+    #login-submit {
+        font-size: 3rem; /* Anpassung der Schaltfläche */
+        padding: 1vw;
+    }
+
+  
+
+ 
+}
+

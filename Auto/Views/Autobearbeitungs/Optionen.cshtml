@@ -1,0 +1,41 @@
+﻿@model Auto.Models.Parameter
+
+@{
+    ViewData["Title"] = "Optionen";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-controller="Autobearbeitungs" asp-action="Optionen" method="post" class="needs-validation" novalidate>
+                <div class="card shadow-sm rounded-4">
+                    <div class="card-header bg-primary text-white rounded-top-4">
+                        <h3 class="mb-0">Einstellungen</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label asp-for="emailadresse" class="form-label fw-semibold">E-Mail-Adresse</label>
+                            <input asp-for="emailadresse" class="form-control" placeholder="z. B. kontakt@example.com" />
+                            <span asp-validation-for="emailadresse" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="telefonnummer" class="form-label fw-semibold">Telefonnummer</label>
+                            <input asp-for="telefonnummer" class="form-control" placeholder="z. B. +49 123 4567890" />
+                            <span asp-validation-for="telefonnummer" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-light text-center">
+                        <button type="submit" class="btn btn-primary px-4">Änderungen speichern</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

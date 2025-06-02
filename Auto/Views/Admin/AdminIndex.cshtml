@@ -1,0 +1,77 @@
+﻿
+@model List<UserRoleViewModel>
+@{
+    ViewData["Title"] = "AdminIndex";
+}
+<div id="BackgroundContainer">
+    <div style="max-height:100vh;max-width:100vw;">
+
+        <div class="text-center">
+
+            <a class="btn btn-success meinButton m-2"  border-radius:1vw !important" asp-controller="Admin" asp-action="neuenUserErstellen">Neuen User Erstellen</a>
+
+        </div>
+
+        <div class="text-center">
+            <div class="aussenscroller" style="width:90vw;margin:auto">
+                <div style="display: flex;  width:100%;justify-content: center">
+                    <table class="table table-bordered table-success tabellealleUser">
+
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Email bestätigt
+                                </th>
+                                <th>
+                                    Rolle
+                                </th>
+                                <th>edit</th>
+                                <th>del</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in Model)
+                            {
+
+                                <tr>
+                                    <input type="hidden" name="UserId" value="@i.UserId" />
+                                    <td>@i.Email</td>
+                                    <td>@i.EmailConfirmed </td>
+                                    <td>@i.RoleName</td>
+                                    <td>
+                                        <a asp-controller="Admin"
+                                           asp-action="neuenUserErstellen"
+                                           asp-route-id="@i.UserId">
+                                            edit
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Admin"
+                                           asp-action="del"
+                                           asp-route-email="@i.Email">
+                                            del
+                                        </a>
+                                    </td>
+                                </tr>
+
+
+
+
+
+
+
+
+
+                            }
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div></div>
+        </div>
+    </div>

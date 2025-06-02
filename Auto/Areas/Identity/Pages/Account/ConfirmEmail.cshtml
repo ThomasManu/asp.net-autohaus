@@ -1,0 +1,36 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "E-Mail bestätigt";
+}
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h1>E-Mail erfolgreich bestätigt!</h1>
+            <p class="text-muted">Ihr Konto ist jetzt aktiviert</p>
+        </div>
+
+        <div class="confirmation-message">
+            @if (!string.IsNullOrEmpty(Model.StatusMessage))
+            {
+                <div class="@(Model.StatusMessage.Contains("Error") ? "alert alert-danger" : "alert alert-success")">
+                    <i class="@(Model.StatusMessage.Contains("Error") ? "fas fa-exclamation-circle" : "fas fa-check-circle")"></i>
+                    <p>@Model.StatusMessage</p>
+                </div>
+            }
+
+            <div class="d-grid gap-2">
+                <a asp-page="./Login" class="btn btn-primary login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Jetzt einloggen
+                </a>
+            </div>
+
+            <div class="login-links mt-3">
+                <a asp-page="/Index" class="back-to-home">
+                    <i class="fas fa-home"></i> Zur Startseite
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

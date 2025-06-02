@@ -1,0 +1,221 @@
+﻿@model Auto.Models.Automobil
+@{
+    ViewData["Title"] = Model.Herstellername + " " + Model.Modell;
+    var parameter = ViewBag.parameter as Parameter;
+}
+
+<div class="hero-banner bg-dark text-white">
+    <div class="container">
+        <h1 class="fw-bold mb-2">@Model.Herstellername @Model.Modell</h1>
+        <p class="lead mb-0">@Model.Preis.ToString("N0") € • @Model.Kilometerstand km • @Model.Baujahr</p>
+    </div>
+</div>
+
+
+<div style="height: 21vh;"></div>
+<div class="scroll-wrapper" style="max-height: 69vh;">
+    <div class="container mb-5 mt-4">
+        <div class="row">
+            <div class="col-lg-8 order-lg-1 mb-4">
+             
+                <div class="card shadow-sm d-flex justify-content-center align-items-center" style="height: 100%;">
+                    <div id="vehicleCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner rounded-top">
+                            @if (Model.Bilderliste != null && Model.Bilderliste.Any())
+                            {
+                                <div class="carousel-item active">
+                                    <img src="@Model.Bilderliste[0]" class="d-block w-100 img-fluid" alt="@Model.Herstellername @Model.Modell">
+                                </div>
+                                @foreach (var i in Model.Bilderliste.Skip(1))
+                                {
+                                    <div class="carousel-item">
+                                        <img src="@i" class="d-block w-100 img-fluid" alt="@Model.Herstellername @Model.Modell">
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="carousel-item active">
+                                    <div class="d-flex align-items-center justify-content-center bg-light" style="height: 50vh; min-height: 300px;">
+                                        <i class="fas fa-car fa-5x text-secondary"></i>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#vehicleCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#vehicleCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row g-2 mt-2 " >
+                    @if (Model.Bilderliste != null && Model.Bilderliste.Any())
+                    {
+                        @foreach (var (img, index) in Model.Bilderliste.Select((img, i) => (img, i)))
+                        {
+                            <div class="col-4 col-md-2">
+                                <img src="@img"
+                                     class="img-thumbnail @(index == 0 ? "active border-primary" : "")"
+                                     style="cursor: pointer; height: 5rem; object-fit: cover;"
+                                     onclick="$('#vehicleCarousel').carousel(@index)">
+                            </div>
+                        }
+                      
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-4 order-lg-2 mb-4 vehicle-details">
+             
+                <div class="card shadow-sm h-100 ">
+                    <div class="card-body" id="Fahrzeugdetaillcontainer">
+                        <h3 class="card-title mb-4">Fahrzeugdetails</h3>
+                        <div class="vehicle-specs mb-4">
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                <span class="spec-badge rounded-pill"><i class="fas fa-calendar-alt me-1"></i> @Model.Baujahr</span>
+                                <span class="spec-badge rounded-pill"><i class="fas fa-tachometer-alt me-1"></i> @Model.Kilometerstand km</span>
+                                <span class="spec-badge rounded-pill"><i class="fas fa-palette me-1"></i> @Model.Farbe</span>
+                            </div>
+
+                            <ul class="list-unstyled">
+                                <li class="detail-item mb-2">
+                                    <span class="detail-icon"><i class="fas fa-bolt"></i></span>
+                                    <span>@Model.Leistung KW (@((int)(Model.Leistung * 1.36)) PS)</span>
+                                </li>
+                                <li class="detail-item mb-2">
+                                    <span class="detail-icon"><i class="fas fa-certificate"></i></span>
+                                    <span>TÜV bis @Model.TüvBis.ToString("MM/yyyy")</span>
+                                </li>
+                                <li class="detail-item mb-2">
+                                    <span class="detail-icon"><i class="fas fa-gas-pump"></i></span>
+                                    <span>Kraftstoff</span>
+                                </li>
+                                <li class="detail-item mb-2">
+                                    <span class="detail-icon"><i class="fas fa-cog"></i></span>
+                                    <span>Getriebe</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="price-section bg-light p-3 rounded mb-4 text-center">
+                            <h4 class="mb-0 text-primary">@Model.Preis.ToString("N0") €</h4>
+                            <small class="text-muted">inkl. MwSt.</small>
+                        </div>
+
+                        <div class="contact-actions">
+                            <a id="Emailsendebutton" class="btn btn-primary w-100 mb-3 send-email"
+                               data-email="@parameter?.emailadresse"
+                               data-herstellername="@Model.Herstellername"
+                               data-modell="@Model.Modell">
+                                <i class="fas fa-envelope me-2"></i>Email senden
+                            </a>
+
+                            <a id="haendleranrufButton" class="btn btn-outline-primary w-100 mb-3" href="tel:@parameter?.telefonnummer">
+                                <i class="fas fa-phone me-2"></i>Händler anrufen
+                            </a>
+
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-secondary flex-grow-1">
+                                    <i class="fas fa-heart me-2"></i>Merkliste
+                                </button>
+                                <button class="btn btn-outline-secondary flex-grow-1">
+                                    <i class="fas fa-print me-2"></i>Drucken
+                                </button>
+                            </div>
+
+                            <small class="text-muted d-block mt-2">
+                                <i class="fas fa-info-circle me-1"></i> Zur Emailversendung muss ein Standard-E-Mail-Programm eingerichtet sein.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div class="row justify-content-center ausstattungundbeschreibung">
+            <div class="col-md-6 mb-5">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">Ausstattung</h3>
+                        <div class="row">
+                            @if (Model.ExtraListe != null && Model.ExtraListe.Any())
+                            {
+                                @foreach (var item in Model.ExtraListe)
+                                {
+                                    <div class="col-6 mb-2">
+                                        <span class="detail-item">
+                                            <span class="detail-icon">
+                                                <i class="fas fa-check text-success"></i>
+                                            </span>
+                                            <span>@item</span>
+                                        </span>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="col-12">
+                                    <p class="text-muted">Keine Ausstattungsdetails verfügbar</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="col-md-6 mb-5 ">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">Beschreibung</h3>
+                        <p>
+                            @if (!string.IsNullOrEmpty(Model.))
+                            {
+                                @Model.Extras
+                            }
+                            else
+                            {
+                                <span class="text-muted">Keine Beschreibung verfügbar</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+    </div>
+    </div>
+    @section scripts {
+        <script>
+            $(document).ready(function() {
+                // Initialize carousel
+                $('#vehicleCarousel').carousel();
+
+                // Make thumbnails clickable
+                $('.img-thumbnail').click(function() {
+                    $('.img-thumbnail').removeClass('active border-primary');
+                    $(this).addClass('active border-primary');
+                });
+            });
+
+            document.querySelectorAll('.send-email').forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var emailempfänger = this.dataset.email;
+                    var herstellername = this.dataset.herstellername;
+                    var modell = this.dataset.modell;
+
+                    var subject = `Anfrage zum Fahrzeug: ${herstellername} ${modell}`;
+                    var body = `Sehr geehrter Autohändler,\n\nIch interessiere mich für das Fahrzeug ${herstellername} ${modell}.\nBitte kontaktieren Sie mich für weitere Details.\n\nMit freundlichen Grüßen`;
+
+                    var mailtoLink = `mailto:${emailempfänger}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                    window.location.href = mailtoLink;
+                });
+            });
+        </script>
+    }

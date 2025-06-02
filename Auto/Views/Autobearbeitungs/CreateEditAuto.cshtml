@@ -1,0 +1,139 @@
+﻿@model Auto.Models.Automobil
+@{
+    ViewData["Title"] = "Auto bearbeiten oder erstellen";
+}
+<div style="max-height: 90vh; overflow-y: auto; margin-top:10vh">
+
+<div class="container-fluid px-3 py-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Auto bearbeiten oder erstellen</h2>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Autobearbeitungs" asp-action="CreateEditAuto" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <input class="form-control" asp-for="Herstellername" placeholder="Hersteller" />
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control" asp-for="Modell" placeholder="Modell" />
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control" asp-for="Farbe" placeholder="Farbe" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <input class="form-control" asp-for="Kilometerstand" placeholder="Kilometerstand" type="number" />
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control" asp-for="Baujahr" placeholder="Baujahr" type="number" />
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control" asp-for="Leistung" placeholder="Leistung (kW)" type="number" />
+                    </div>
+
+                    <div class="col-12">
+                        <textarea class="form-control" asp-for="Extras" rows="3" placeholder="Extras (durch Komma getrennt)"></textarea>
+                    </div>
+
+                    <div class="col-md-4">
+                        <input class="form-control" asp-for="Preis" placeholder="Preis" type="number" />
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control" type="text" placeholder="TÜV fällig am:" readonly />
+                    </div>
+                    <div class="col-md-4">
+                        <input class="form-control" asp-for="TüvBis" type="date" />
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <label class="form-label d-block">Autobild hinzufügen:</label>
+                        <input type="file" class="form-control" id="fileInput" name="file" onchange="previewImage(event)" />
+                    </div>
+
+                    <div class="col-12" id="Bilderlistenanzeige" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        @if (Model?.Bilderliste?.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Bilderliste.Count; i++)
+                            {
+                                <a href="#" onclick="loeschedasBild(@i)" class="position-relative">
+                                    <img src="@Model.Bilderliste[i]" class="img-thumbnail" style="height: 100px;" />
+                                    <span class="position-absolute top-0 start-0 badge bg-danger">x</span>
+                                </a>
+                            }
+                        }
+                    </div>
+
+                    <div class="col-12 text-center mt-4">
+                        <button type="submit" class="btn btn-success px-5">Speichern</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <script>
+                  function previewImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            fetch('/Autobearbeitungs/UploadBase64', {
+                method: 'POST',
+                body: formData
+            })
+            .then(r => r.json())
+            .then(data => {
+                // Bildanzeige
+                let container = document.getElementById('Bilderlistenanzeige');
+                let img = document.createElement('img');
+                img.src = data.imagePath; // <-- bereits als Pfad
+                img.className = 'img-thumbnail';
+                img.style.height = "100px";
+                container.appendChild(img);
+
+                // Verstecktes Feld zum Speichern im Formular
+                const pathContainer = document.getElementById('imagePathsContainer');
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'Bilderliste';
+                input.value = data.imagePath;
+                pathContainer.appendChild(input);
+            })
+            .catch(err => console.error(err));
+        }
+
+
+
+        function loeschedasBild(index) {
+            if (!confirm("Bild wirklich löschen?")) return;
+
+            $.post('/Autobearbeitungs/DeleteImage', { index: index })
+                .done(response => {
+                    const container = document.getElementById('Bilderlistenanzeige');
+                    container.innerHTML = '';
+                    response.forEach((src, i) => {
+                        let a = document.createElement('a');
+                        a.setAttribute('onclick', `loeschedasBild(${i})`);
+                        let img = document.createElement('img');
+                        img.src = src;
+                        img.className = 'img-thumbnail';
+                        img.style.height = '100px';
+                        a.appendChild(img);
+                        container.appendChild(a);
+                    });
+                })
+                .fail(err => {
+                    console.error(err);
+                    alert("Bild konnte nicht gelöscht werden.");
+                });
+        }
+    </script>
+}

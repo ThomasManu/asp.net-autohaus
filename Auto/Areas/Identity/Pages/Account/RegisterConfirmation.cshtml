@@ -1,0 +1,62 @@
+﻿@page "{email?}/{returnUrl?}"
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Account Bestätigung";
+}
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h1>Fast geschafft!</h1>
+            <p class="text-muted">@ViewData["Title"]</p>
+        </div>
+
+        <div class="confirmation-message">
+            @if (@Model.DisplayConfirmAccountLink)
+            {
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <p>
+                        Dieser Demo-Dienst versendet aktuell keine E-Mails.
+                        <a href="https://aka.ms/aspaccountconf" target="_blank">Hier erfahren Sie</a> wie Sie einen echten E-Mail-Versand einrichten.
+                    </p>
+                    <a id="confirm-link" href="@Model.EmailConfirmationUrl" class="btn btn-primary mt-3">
+                        <i class="fas fa-check-circle"></i> Account jetzt bestätigen
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-success">
+                    <i class="fas fa-envelope"></i>
+                    <p>
+                        Bitte überprüfen Sie Ihr E-Mail-Postfach und klicken Sie auf den Bestätigungslink,
+                        um Ihre Registrierung abzuschließen.
+                    </p>
+                </div>
+                <div class="resend-link">
+                    Keine E-Mail erhalten? <a href="#" id="resend-confirmation">Link erneut senden</a>
+                </div>
+            }
+        </div>
+
+        <div class="login-links">
+            <a asp-page="./Login" class="back-to-login">
+                <i class="fas fa-arrow-left"></i> Zurück zum Login
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        // Optional: Resend confirmation link functionality
+        document.getElementById('resend-confirmation')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Hier würde normalerweise ein API-Call stehen
+            alert('Bestätigungslink wurde erneut gesendet!');
+        });
+    </script>
+}

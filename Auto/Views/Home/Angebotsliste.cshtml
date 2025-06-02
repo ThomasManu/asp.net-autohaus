@@ -1,0 +1,202 @@
+﻿@model List<Automobil>
+
+@{
+    ViewData["Title"] = "Angebote";
+    var parameter = ViewBag.parameter as Parameter;
+}
+
+
+
+    <div class="hero-banner bg-dark text-white text-center">
+        <div class="container">
+            <h1 class="fw-bold mb-2">Unsere Fahrzeugangebote</h1>
+            <p class="lead mb-0">Qualität zu fairen Preisen</p>
+        </div>
+    </div>
+    <div id = "AbstandwegenBannerundnav" ></div>
+    <!-- Main Content -->
+    <div class="container mb-4 ">
+        <!-- Filter Section -->
+        <div class="row mb-3" >
+            <div class="col-12">
+                <div class="card filter-card shadow-sm">
+                    <div class="card-body py-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-primary me-2">@Model.Count Fahrzeuge</span>
+                                <small class="text-muted">Sortieren nach:</small>
+                            </div>
+                            <div>
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#sortOptions">
+      <i class="fas fa-sort me-1"></i>Optionen
+  </button>
+  <div id="sortOptions" class="collapse mt-2">
+      <ul class="list-group">
+          <li class="list-group-item">Preis (niedrig → hoch)</li>
+          <li class="list-group-item">Preis (hoch → niedrig)</li>
+          <li class="list-group-item">Kilometerstand</li>
+          <li class="list-group-item">Erstzulassung</li>
+      </ul>
+  </div>
+</div>
+
+                         @*    <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown">
+                                    <i class="fas fa-sort me-1"></i>Optionen
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">Preis (niedrig → hoch)</a></li>
+                                    <li><a class="dropdown-item" href="#">Preis (hoch → niedrig)</a></li>
+                                    <li><a class="dropdown-item" href="#">Kilometerstand</a></li>
+                                    <li><a class="dropdown-item" href="#">Erstzulassung</a></li>
+                                </ul>
+                            </div> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehicle List -->
+    <!-- Vehicle List mit Scrollbereich -->
+    <div class="scroll-wrapper" style=" max-height: 50vh;">
+        <div class="row">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                <div class="col-12 col-md-6 mb-3" id="AngeboteContainer" >
+
+
+
+
+                        <div class="card vehicle-card h-100" style="padding:1vh">
+                            <div class="row g-0 h-100">
+                                <!-- Image Column -->
+                                <div class="col-md-6">
+                                    <div class="vehicle-img-container">
+                                        <a asp-controller="home" asp-action="detaills" asp-route-id="@item.Id" class="h-100 d-block">
+                                            @if (item.Bilderliste != null && item.Bilderliste.Any())
+                                            {
+                                                <img class="vehicle-img" src="@item.Bilderliste[0]" alt="@item.Herstellername @item.Modell">
+                                            }
+                                            else
+                                            {
+                                                <div class="vehicle-img bg-secondary d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-car fa-3x text-light"></i>
+                                                </div>
+                                            }
+                                        </a>
+                                        <span class="price-badge position-absolute top-0 end-0 m-2">@item.Preis.ToString("N0") €</span>
+                                    </div>
+                                </div>
+
+                                <!-- Details Column -->
+                                <div class="col-md-6">
+                                    <div class="card-body h-100 d-flex flex-column p-3">
+                                        <!-- Header -->
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h5 class="card-title mb-0 fs-6 fs-md-5">@item.Herstellername @item.Modell</h5>
+                                        </div>
+
+                                        <!-- Badges with key specs -->
+                                        <div class="d-flex flex-wrap mb-2">
+                                            <span class="spec-badge rounded-pill"><i class="fas fa-calendar-alt me-1"></i> @item.Baujahr</span>
+                                            <span class="spec-badge rounded-pill"><i class="fas fa-tachometer-alt me-1"></i> @item.Kilometerstand km</span>
+                                            @if (!string.IsNullOrEmpty(item.Farbe))
+                                            {
+                                                <span class="spec-badge rounded-pill"><i class="fas fa-palette me-1"></i> @item.Farbe</span>
+                                            }
+                                        </div>
+
+                                        <!-- Detailed specs -->
+                                        <ul class="list-unstyled mb-2 flex-grow-1">
+                                            <li class="detail-item">
+                                                <span class="detail-icon"><i class="fas fa-bolt"></i></span>
+                                                <span>@item.Leistung KW (@((int)(item.Leistung * 1.36)) PS)</span>
+                                            </li>
+                                            <li class="detail-item">
+                                                <span class="detail-icon"><i class="fas fa-certificate"></i></span>
+                                                <span>TÜV bis @item.TüvBis</span>
+                                            </li>
+                                        </ul>
+
+                                        <!-- CTA Button -->
+                                        <div class="mt-auto">
+                                            <a asp-controller="home" asp-action="detaills" asp-route-id="@item.Id" class="btn btn-details">
+                                                <i class="fas fa-search me-1"></i>Details
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body text-center py-4">
+                            <i class="fas fa-info-circle fa-3x text-muted mb-3"></i>
+                            <h5 class="mb-2">Keine Fahrzeuge gefunden</h5>
+                            <p class="text-muted mb-0">Bitte passen Sie Ihre Filterkriterien an</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+ 
+@section scripts{
+    @*<script>
+    document.getElementById('herstellerSelect').addEventListener('change', function() {
+        var selectedHerstellerId = this.value;
+        window.location.href = '@Url.Action("Angebotsliste", "Home")' + '?herstellerId=' + selectedHerstellerId;
+    });
+    </script>*@
+
+    <script>
+      document.querySelectorAll('.send-email').forEach(function(button) {
+    button.addEventListener('click', function (event) {
+        // Verhindere das Standardverhalten des Links
+        event.preventDefault();
+
+        // Abrufen der Daten aus den data-* Attributen
+        var emailempfänger = this.dataset.email;
+        var herstellername = this.dataset.herstellername;
+        var modell = this.dataset.modell;
+
+        // Parameter aus dem ViewBag
+      
+        var subject = `Anfrage zum Fahrzeug: ${herstellername} ${modell}`;
+        var body = `Sehr geehrter heissgeliebter göttlicher Autohändler Thomas,
+
+ich interessiere mich für das Fahrzeug ${herstellername} ${modell}.
+Bitte kontaktieren Sie mich für weitere Details.
+
+Mit freundlichen Grüßen`;
+
+        // `mailto`-Link mit den dynamisch erzeugten Werten
+        var mailtoLink = `mailto:${emailempfänger}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        console.log("Mailto-Link:", mailtoLink); // Debugging-Ausgabe
+
+        // Öffne das E-Mail-Programm mit dem Mailto-Link
+        window.location.href = mailtoLink;
+    });
+});
+
+            // Setze die Telefonnummer für den Anruf-Link
+        //    var callLink = document.getElementById('call-link');
+        //    if (callLink && telefonnummer) {
+        //        callLink.href = `tel:${telefonnummer}`;
+        //    }
+        //});
+    </script>
+}
+
+
+

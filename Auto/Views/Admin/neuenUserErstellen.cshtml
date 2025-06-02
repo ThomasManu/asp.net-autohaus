@@ -1,0 +1,63 @@
+﻿
+@model Auto.Models.UserRoleViewModel
+@{
+ViewData["Title"] = "Resend email confirmation";
+}
+<div id="BackgroundContainer">
+    <div style="width:100vw;height:100vh">
+      
+            <form asp-controller="Admin" asp-action="neuenUserErstellen" method="post">
+                <div class="card">
+                    <div class="card-header bg-success text-center">
+                        <h1 class="text-white">@ViewBag.neuerstellung</h1>
+                    </div>
+                    <div class="card-body">
+
+                        <input type="hidden" asp-for="AlteEmail" value="@Model.Email" />
+                        <input type="hidden" asp-for="UserId" value="@Model.UserId" />
+                        <div class="row m-2">
+                            <div class="col-6">
+                                Email
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control" type="email" asp-for="Email" value="@Model.Email" required />
+                            </div>
+                        </div>
+                        <div class="row m-2">
+                            <div class="col-6">
+                                Rolle
+                            </div>
+                            <div class="col-6">
+                                <select class="form-select" asp-for="RoleName" required>
+                                    <option value="">chose Role</option>
+                                    @foreach (var role in ViewBag.Roles)
+                                    {
+                                        <option value="@role">@role</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row m-2">
+                            <div class="col-6">
+                                StartPasswort
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control" type="password" asp-for="passwort" value="@Model.passwort" required />
+                            </div>
+                        </div>
+                        <div class="row m-2">
+                            <div class="col-6">
+                                Email bestätigt?
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control" type="text" asp-for="EmailConfirmed" value="@Model.EmailConfirmed" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-success text-center">
+                        <button class="btn btn-success" type="submit">@ViewBag.senden</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

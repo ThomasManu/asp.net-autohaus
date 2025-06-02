@@ -1,0 +1,39 @@
+# Build-Ordner
+bin/
+obj/
+
+# Benutzerabhängige Dateien
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Cache
+.vs/
+
+# Rider IDE Dateien
+.idea/
+
+# Veröffentlichungsordner
+publish/
+
+# NuGet Paket Dateien
+*.nupkg
+*.snupkg
+
+# Log Dateien
+*.log
+
+# ASP.NET Core spezifisch
+wwwroot/lib/
+
+# Umgebungsdateien
+.env
+appsettings.Development.json
+
+# JetBrains Rider
+.idea/
+
+# Sonstige temporäre Dateien
+*.vspscc
+*.vssscc
